@@ -76,12 +76,15 @@ def kernel_parallel(samples, xmin, xmax, histogram_out):
     if bin_number >= 0 and bin_number < histogram_out.shape[0]:
         cuda.atomic.add(histogram_out, bin_number, 1) # Prevent race conditions
 
+##
+## Timing functions
+##
+
 def time_cpu():
     histogram_out = np.zeros(nbins)
-    start = time.time()
-    calc_histogram_on_cpu(signal, xmin, xmax, histogram_out)
+    t_cpu = synchronous_kernel_timeit( lambda: calc_histogram_on_cpu(signal, xmin, xmax, histogram_out), number=10)
     print('CPU:')
-    print(time.time() - start)
+    print(t_cpu)
 
 def time_gpu_seq():
     histogram_out = np.zeros(nbins)
@@ -94,6 +97,10 @@ def time_gpu_par():
     t_par = synchronous_kernel_timeit( lambda: kernel_parallel[16,512](signal, xmin, xmax, histogram_out), number=10)
     print('GPU par:')
     print(t_par)
+
+##
+## Plotting functions
+##
 
 def create_plots():
     functions = [
@@ -111,6 +118,10 @@ def create_plots():
 
     plt.show()
 
+##
+## SETUP
+##
+
 # Repeatable results
 np.random.seed(0)
 
@@ -126,7 +137,16 @@ nbins = 500
 bin_width = (xmax - xmin) / nbins
 x_vals = np.linspace( xmin, xmax, nbins, endpoint=False ) + bin_width/2
 
+##
+## Call timing functions
+##
+
 time_cpu()
 time_gpu_seq()
 time_gpu_par()
+
+##
+## Create plots
+##
+
 create_plots()
