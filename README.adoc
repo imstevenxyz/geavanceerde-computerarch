@@ -1,7 +1,13 @@
-conda create --name comparch
-conda activate comparch
-conda install numpy
-conda install numba
-conda install cudatoolkit
-conda install matplotlib
-conda install pylint
+:toc:
+:toclevels: 5
+:sectnums:
+:sectnumlevels: 5
+
+== Conda setup linux
+[source,console]
+----
+foo@bar:~$ source /opt/anaconda/bin/activate root
+foo@bar:~$ conda create --name comparch
+foo@bar:~$ conda activate comparch
+foo@bar:~$ conda install numpy numba cudatoolkit matplotlib pylint
+----
