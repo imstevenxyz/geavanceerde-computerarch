@@ -1,0 +1,7 @@
+conda create --name comparch
+conda activate comparch
+conda install numpy
+conda install numba
+conda install cudatoolkit
+conda install matplotlib
+conda install pylint

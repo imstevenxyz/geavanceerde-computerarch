@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "/home/mrmuffin/.conda/envs/comparch/bin/python",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true
+}
