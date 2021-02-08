@@ -4,6 +4,8 @@ from math import sin, cos, pi
 from matplotlib import pyplot as plt
 from numba import cuda
 
+# pylint: disable=unsubscriptable-object
+
 def synchronous_kernel_timeit(kernel_func, number=1, repeat=1):
     """Time a kernel function while synchronizing upon every function call.
 
@@ -59,7 +61,7 @@ def time_cpu():
     print(t_cpu)
 
 def time_gpu_seq():
-
+    # TODO: kernel
     t_seq = synchronous_kernel_timeit(lambda: kernel[1,1](), number=10)
     print('GPU seq:')
     print(t_seq)
