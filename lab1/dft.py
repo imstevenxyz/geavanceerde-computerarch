@@ -64,17 +64,19 @@ def kernel_parallel(samples, frequencies_real, frequencies_img):
         cuda.atomic.add(frequencies_img, k, ((sample * (-1* sin(2 * pi * k * x / N) ))))
 
 @cuda.jit
-def kernel_parallel_sequential(samples, frequencies_real, frequencies_img,threads):
+# def kernel_parallel_sequential(samples, frequencies_real, frequencies_img,threads):
+def kernel_parallel_sequential(samples, frequencies_real, frequencies_img, threads, reps):
     '''Use the GPU for generateing a histogram. In parallel.'''
 
     # Calculate the thread's absolute position within the grid
     x = cuda.threadIdx.x + cuda.blockIdx.x * cuda.blockDim.x
 
-    _N = samples.shape[0]
+    # _N = samples.shape[0]
 
     for k in range(frequencies_real.shape[0]):
         # for i in range(N/threads):
-        for i in range(_N/threads):
+        # for i in range(_N/threads):
+        for i in range(reps):
             cuda.atomic.add(frequencies_real, k, ((samples[x+i*threads]* (cos(2 * pi * k * (x+i*threads) / N)))))
             cuda.atomic.add(frequencies_img, k, ((samples[x+i*threads] * (-1 * sin(2 * pi * k * (x+i*threads) / N)))))
 
@@ -115,11 +117,16 @@ def time_gpu_par_seq(threads):
     print('GPU par seq with ' + str(threads) + ' threads : ' )
     print(t_par_seq)
 ###
+
+import math
 def time_gpu_par_seq_time(threads):
     frequencies_real = np.zeros(int(N/2+1), dtype=np.float)
     frequencies_img = np.zeros(int(N/2+1), dtype=np.float)
-    kernel_parallel_sequential[1, threads](sig_sum, frequencies_real, frequencies_img, threads)
-    t_par_seq = synchronous_kernel_timeit(lambda: kernel_parallel_sequential[1,threads](sig_sum, frequencies_real, frequencies_img,threads), number=10)
+    reps = math.ceil(N / threads)
+
+    print(threads, reps, N)
+    kernel_parallel_sequential[1, threads](sig_sum, frequencies_real, frequencies_img, threads, reps)
+    t_par_seq = synchronous_kernel_timeit(lambda: kernel_parallel_sequential[1, threads](sig_sum, frequencies_real, frequencies_img, threads, reps), number=10)
     return t_par_seq
 
 def times(array_times,aray_threads,threads,stepsize):
