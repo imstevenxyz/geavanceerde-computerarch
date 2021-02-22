@@ -57,8 +57,8 @@ def kernel_parallel_one(samples, frequencies_real, frequencies_img,threads):
 
     for k in range(frequencies.shape[0]):
         for i in range(N/threads):
-            cuda.atomic.add(frequencies_real, k, ((samples[x+i]* (cos(2 * pi * k * (x+i) / N)))))
-            cuda.atomic.add(frequencies_img, k, ((samples[x+i] * (-1 * sin(2 * pi * k * (x+i) / N)))))
+            cuda.atomic.add(frequencies_real, k, ((samples[x+i*threads]* (cos(2 * pi * k * (x+i*threads) / N)))))
+            cuda.atomic.add(frequencies_img, k, ((samples[x+i*threads] * (-1 * sin(2 * pi * k * (x+i*threads) / N)))))
 
 
 
