@@ -58,17 +58,15 @@ The CPU function as thought is the worst performing but if we use \code{@numba.j
 
 \subsection{Semi parallel}
 \label{subsec:semiparallel}
-The function will now be partially parallel, some threads will have to loop a few times, how many times it will have to loop depends if there are fewer threads than samples. The execution time is expected to decrease as we increase the amount of threads. We performed this with 1 thread (full sequential) up to 500 threads (full parallel) where we allocated always 1 more thread than before, the result of this can be seen in \ref{figure:timing_dft_S500_T500_I1.png}.
-The results are not fully expected. We do see that the time decreases in steps this is because as long as 1 thread still has to do a loop the time will be longer. We also see at the beginning the time increases (peak at ~32) in this bracket more threads will increase the time, this can be with allocation of the threads takes more time. The wrong result is that the time of 500 (full parallel) is already reached at 251, this is probably an error in the code that does not round correctly and gives too many threads. The time on the graph is therefore not accurate but the form of the graph is, (time is 1 repeat loop of).
-So we can still see how much faster it will operate when we use more threads. The biggest change is at the start where from 1 to 2 threads the time halves. But the more threads we allocate the lessen their  impact on the time will be, for more it seems that 10x the amount of threads are needed to halve the time each time.
+The function will now be partially parallel, some threads will have to loop a few times, how many times it will have to loop depends if there are fewer threads than samples. The execution time is expected to decrease as we increase the amount of threads. We performed this with 1 thread (full sequential) up to 500 threads (full parallel) where we allocated always 1 more thread than before, the result of this can be seen in figure \ref{figure:timing_dft_S500_T500_I1}.
+The results are not fully expected. We do see that the time decreases in steps, this is because as long as 1 thread still has to do a loop the time will be longer. We also see at the beginning the time increases (peak at ~32) in this bracket more threads will increase the time, this can be with allocation of the threads takes more time. The wrong result is that the time of 500 (full parallel) is already reached at 251, this is probably an error in the code that does not round correctly and gives too many threads. The time on the graph is therefore not accurate but the form of the graph is, (time is 1 repeat loop of).
+So we can still see how much faster it will operate when we use more threads. The biggest change is at the start where from 1 to 2 threads the time halves. But the more threads we allocate the lessen their impact on the time will be, for more it seems that 10x the amount of threads are needed to halve the time each time.
 
-
-\begin{figure}
-   \begin{minipage}[t]{0.45\linewidth}
-        \includegraphics[width=\linewidth]{images/semiparallel.png}
-        \caption{Timing performance}
-        \label{figure:semiparallel}
-    \end{minipage}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/timing_dft_S500_T500_I1.png}
+    \caption{Timing performance semi parallel kernel}
+    \label{figure:timing_dft_S500_T500_I1}
 \end{figure}
 
 \section{Conclusion}
