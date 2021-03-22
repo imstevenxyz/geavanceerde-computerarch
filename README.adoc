@@ -9,7 +9,7 @@
 foo@bar:~$ source /opt/anaconda/bin/activate root
 foo@bar:~$ conda create --name comparch
 foo@bar:~$ conda activate comparch
-foo@bar:~$ conda install numpy numba cudatoolkit matplotlib pylint pandas
+foo@bar:~$ conda install numpy numba cudatoolkit matplotlib pylint pandas plotly
 foo@bar:~$ conda install -c conda-forge jupyterlab
 ----
 
