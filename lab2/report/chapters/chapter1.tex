@@ -27,39 +27,43 @@ From this we can see that striding actually helps organize the threads in two wa
     \item More than needed threads? → Do not run the calculations for non-existing memory locations.
 \end{itemize}
 
+\newpage
+
 \section{Warps}
 \label{sec:warps}
 
-A warp is a set of threads that work at the same time and execute the same code. The threads all share resources and they start and stop at the same time. This allows for better perfmance when the code is executed in warps. The size of a warp is depended on the architecture of the gpu and on the gpu we work on the warp size is 32 threads.
+A warp is a set of threads that work at the same time and execute the same code. The threads all share resources, they start and stop at the same time. This allows for better performance when the code is executed in warps. The size of a warp is depended on the architecture of the GPU and on the GPU we work on the warp size is 32 threads.
 
-In the \ref{figure:warp_zoom} the execution time is plotted in function of the amount of threads used. This to show the effect of warp.
-The Y-axis is the execution time.
-The X-axis is the amount of threads used.
-The names in the legends mean: 
-B amount of blocks allocated (singular*)
-T amount of threads allocated per block (singular)
-I amount of pixels in the image (cubic)
-(*the amount of blocks is actualy cubic in the code but we display it singular on the plot. This is to keep the numbers lower on the plot so its easier to see them, while reducing the computation time to get all the results. If interested in the real numbers you can open "plot_actual_threads.html" on the git.)
+In figure \ref{figure:warp_zoom} the execution time is plotted in function of the amount of threads used. This to show the effect of warp. The Y-axis is the execution time and X-axis is the amount of threads used.
+
+The names in the legends mean:
+\begin{itemize}
+    \item B: Amount of blocks allocated (singular*).
+    \item T: Amount of threads allocated per block (singular).\
+    \item I: Amount of pixels in the image (cubic)
+\end{itemize}
+(*the amount of blocks is actually cubic in the code, but we display it singular on the plot. This is to keep the numbers lower on the plot, so it's easier to see them, while reducing the computation time to get all the results. If interested in the real numbers you can open ''plotactualthreads.html'' on the git repository.)
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{images/warp_plot_zoom.PNG}
+    \includegraphics[width=0.8\textwidth]{images/warp_plot_zoom.PNG}
     \caption{Execution time in function of amount of threads}
     \label{figure:warp_zoom}
 \end{figure}
 
-In the \ref{figure:warp_zoom} we can see several intersting features pop up. Lets start with the 'waves'.You can see for all cases that there form something like 'waves'. The time drops the more threads are allocated and then suddendly jump up, and this patern repeats itself on regular interval. 
-The repetition of the wave is because of the amount of blocks and the warp size. For B_16 it repeats every 512 threads, 16*32=512. For B_32 it repeats every 1024 threads, 32*32=1024. For B_64 it repeats every 2048 threads, 64*32=2048. 
-The overal time increases because of the overhead of the large amount of threads that are used.
-The blue plot B_32_T1024_I512 is faster just because the image is smaller so less needs to be calculated. The warp is still there and the patern is on the same interval as the green plot, the green plot has the same amount of blocks.
+In figure \ref{figure:warp_zoom} we can see several interesting features pop up. Let's start with the 'waves'. You can see for all cases that there form something like 'waves'. The time drops the more threads are allocated and then suddenly jump up, and this pattern repeats itself on regular interval. 
+The repetition of the wave is because of the amount of blocks and the warp size. For B\_16 it repeats every 512 threads, 16*32=512. For B\_32 it repeats every 1024 threads, 32*32=1024. For B\_64 it repeats every 2048 threads, 64*32=2048. 
+The overall time increases because of the overhead of the large amount of threads that are used.
+The blue plot B\_32\_T1024\_I512 is faster just because the image is smaller so fewer need to be calculated. The warp is still there and the pattern is on the same interval as the green plot, the green plot has the same amount of blocks.
 
-The waves (drop, jump, repeat) are there because 
-The drop is there because in the interval the warps are not full so more threads do not require more resources, warp  will execute anyway. So any more threads can only reduce the amount of time that is required.
-The jump is because once all the warps are full another set of warp needs to run. Another warp will require a lot more time even though there are more threads.
+\newpage
+
+The waves (drop, jump, repeat) are there because: \\
+The drop is there because in the interval the warps are not full, so more threads do not require more resources, warp will execute anyway. So any more threads can only reduce the amount of time that is required. \\
+The jump is because once all the warps are full another set of warp needs to run. Another warp will require a lot more time even though there are more threads. \\
 The repetition is there because the last warp, the unfilled one, is the bottleneck. And this only stops when you run out of threads.
 
 \section{Conclusion}
 \label{sec:conclusion}
 
-With striding the code doesnt need to know beforehand how much blocks and threads needs to be allocated. The striding will work out if threads have to run the code multiple times or if threads dont have to run at all. And it will have somewhat of an even devision of the workload.
-The warp has a impact on the time. More threads doesnt mean faster work. The threads should fill an entire warp, if not it will be slower and cost more resources.
+With striding the code doesn't need to know beforehand how many blocks and threads needs to be allocated. The striding will work out if threads have to run the code multiple times or if threads don't have to run at all. And it will have somewhat of an even division of the workload. The warp has an impact on the time. More threads doesn't mean faster work. The threads should fill an entire warp, if not it will be slower and cost more resources.
