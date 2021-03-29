@@ -1,0 +1,133 @@
+% Document and page format
+\documentclass[11pt,a4paper]{article}
+\usepackage[parfill]{parskip}
+\usepackage{microtype}
+\usepackage{tocbibind}
+\usepackage{geometry}
+\geometry{
+  left=2.5cm,
+  right=2.5cm,
+  top=3.5cm,
+  bottom=3.5cm,
+  headheight=13.6pt
+}
+\pdfminorversion=7
+
+% Language
+\usepackage[dutch,english]{babel}
+
+% Color
+\usepackage{xcolor}
+
+% Header/Footer style
+\usepackage{fancyhdr}
+
+% Float
+\usepackage{float}
+
+% Font
+\usepackage{times}
+\renewcommand*{\familydefault}{\rmdefault}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\linespread{1.1}
+
+% Headings
+\usepackage{sectsty}% http://ctan.org/pkg/sectsty
+\definecolor{H1}{RGB}{230,17,17}
+\definecolor{H2}{RGB}{255,0,0}
+\definecolor{H3}{RGB}{241,58,58}
+\sectionfont{\color{H1}\sffamily\LARGE}
+\subsectionfont{\color{H2}\sffamily\Large}
+\subsubsectionfont{\color{H3}\sffamily\large}
+
+% Captions
+\usepackage{caption}
+\captionsetup{
+  font=small,
+  format=plain,
+  labelfont=bf,
+  textfont=it
+}
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+
+% Abstract
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\large\bfseries}
+\renewcommand{\abstractname}{Abstract}
+
+% Appendices
+\usepackage[page, titletoc, toc]{appendix}
+\renewcommand{\appendixtocname}{Bijlagen}
+\renewcommand{\appendixpagename}{\color{H1}\sffamily\LARGE Bijlagen}
+
+% Enumerated lists
+\usepackage{enumitem}
+
+% Abbrevations
+\makeatletter
+\newcommand{\tocfill}{\cleaders\hbox{$\m@th \mkern\@dotsep mu . \mkern\@dotsep mu$}\hfill}
+\makeatother
+\newcommand{\abbrlabel}[1]{\makebox[3cm][l]{\textbf{#1}\ \tocfill}}
+\newenvironment{abbreviations}{\begin{list}{}{\renewcommand{\makelabel}{\abbrlabel}\setlength{\itemsep}{0pt}}}{\end{list}}
+
+% Math
+\usepackage{amsmath, amsfonts, amsthm}
+%\usepackage{tikz}
+
+% Images (pdf and png)
+\usepackage[pdftex]{graphicx}
+\graphicspath{{./assets/}}
+
+% Pdf as page
+\usepackage{pdfpages}
+
+% In-text code snippets
+\definecolor{codegray}{gray}{0.9}
+\newcommand{\code}[1]{\colorbox{codegray}{\texttt{#1}}}
+
+% Codefragments
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Codefragment}
+\renewcommand{\lstlistlistingname}{Lijst van codefragmenten}
+\renewcommand{\lstlistoflistings}{\begingroup\tocfile{\lstlistlistingname}{lol}\endgroup}
+\definecolor{bluekeywords}{RGB}{35,35,255}
+\definecolor{greencomments}{RGB}{0,127,0}
+\definecolor{redstrings}{RGB}{230,0,0}
+\lstset{
+  aboveskip=3mm,
+  basicstyle={\small\ttfamily},
+  belowskip=3mm,
+  breakatwhitespace=true,
+  breaklines=true,
+  captionpos=b
+  columns=flexible,
+  commentstyle=\color{greencomments},
+  frame=tb,
+  keywordstyle=\color{bluekeywords},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stringstyle=\color{redstrings},
+  tabsize=3,
+}
+
+% Tables
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+
+% Cross references
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    citecolor=black,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=cyan
+}
+
+%\usepackage{tabulary}
+%\usepackage{tabu}
+%\tabulinesep=1.2mm
+%\renewcommand\arraystretch{1.7}
