@@ -4,6 +4,9 @@ import numpy as np
 from numpy.lib import stride_tricks
 import matplotlib.pyplot as plt
 
+#pylint: disable=too-many-function-args
+#pylint: disable=unsubscriptable-object
+
 def synchronous_kernel_timeit(kernel_func, number=1, repeat=1):
     """Time a kernel function while synchronizing upon every function call.
 
@@ -70,6 +73,7 @@ result = np.zeros(signal.size+2*pad_size) # Padded left and right
 filter_kernel_sequential[1,1](signal, kz_coeffs, result)
 result_unpadded = result[2*pad_size:-(2*pad_size)] # remove incorrectly calculated values at signal begin and end
 
+# Plot signals
 plt.xlabel('Time')
 plt.ylabel('Signal')
 plt.plot(time, signal, label='Original')
