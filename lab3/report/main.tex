@@ -1,0 +1,37 @@
+\input{preamble}
+
+% Header
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Steven Impens \& Nino Segers}
+\lhead{Lab3: Memory management}
+\cfoot{\thepage}
+
+\begin{document}
+\pagenumbering{gobble}
+
+\include{titlepage}
+
+\pagenumbering{arabic}
+
+\selectlanguage{english}
+
+% TOC
+\setcounter{tocdepth}{3}
+\thispagestyle{empty}
+\microtypesetup{protrusion=false}
+\tableofcontents
+\microtypesetup{protrusion=true}
+\thispagestyle{empty}
+% end TOC
+
+\newpage
+
+%section counter for lstlistings
+\counterwithin{lstlisting}{section}
+
+% Chapters
+\include{chapters/chapter1}
+% End chapters
+
+\end{document}
