@@ -1,0 +1,9 @@
+nothing on device (s) 0.0027556300163269045
+sample_array_gs_device  (s) 0.0024497437477111815
+kz_coeffs_array_gs_device (s) 0.002444329261779785
+result_array_gs_device  (s) 0.002314467430114746
+all on device  (s) 0.0017078185081481933
+t_filter_dev (s)  0.0023705887794494627
+Time needed fo read-only memory migration (s) 0.00028020620346069336
+Sum of memory migration and processing times (s) 0.002650794982910156
+

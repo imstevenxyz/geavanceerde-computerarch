@@ -59,8 +59,8 @@ def filter_kernel_sequential(samples, kz_coeffs, result):
 
 # Define signal samples
 dt = 0.1
-time = np.arange(0, 200+dt, dt)
-signal = np.sin(2*np.pi*0.05*time)
+timePoints = np.arange(0, 200+dt, dt)
+signal = np.sin(2*np.pi*0.05*timePoints)
 
 # Define filter degree and window
 kz_degree = 3
@@ -76,6 +76,6 @@ result_unpadded = result[2*pad_size:-(2*pad_size)] # remove incorrectly calculat
 # Plot signals
 plt.xlabel('Time')
 plt.ylabel('Signal')
-plt.plot(time, signal, label='Original')
-plt.plot(time[pad_size:-pad_size], result_unpadded, label='Filtered')
+plt.plot(timePoints, signal, label='Original')
+plt.plot(timePoints[pad_size:-pad_size], result_unpadded, label='Filtered')
 plt.show()

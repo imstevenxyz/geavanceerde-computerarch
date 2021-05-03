@@ -1,0 +1,2 @@
+time memory not on device  0.11401880025863648
+time memory to device  0.11228885889053344

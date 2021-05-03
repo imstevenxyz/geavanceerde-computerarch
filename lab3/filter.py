@@ -65,7 +65,7 @@ coeffs = _kz_coeffs(5, 5)
 
 
 from plotly import graph_objects as go
-from scipy import signal
+
 
 timePoints = np.linspace(0,1,500)
 
