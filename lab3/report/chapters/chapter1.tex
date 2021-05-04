@@ -3,7 +3,7 @@
 \section{Introduction}
 \label{sec:introduction}
  
-In this lab we will venture in the memory of the GPU. Despite the fact that Numbu already uses some basic memory management in the background we will still experiment with it manually. By doing this we should see some improvements in execution times. We will first implement a kernel function that filters a certain signal with and without the use of memory pre-allocation. After that a function previously used will be implemented that can use the pre-existing data on the GPU.
+In this lab we will venture into the memory of the GPU. Despite the fact that Numbu already uses some basic memory management in the background we will still experiment with it manually. By doing this we should see some improvements in execution times. We will first implement a kernel function that filters a certain signal with and without the use of memory pre-allocation. After that a function previously used will be implemented that can use the pre-existing data on the GPU.
 
 The code repository can be found at: \\
 \url{https://github.com/imstevenxyz/geavanceerde-computerarch}
@@ -46,16 +46,23 @@ Of course the transfer of read-only data to the GPU memory also takes time:
 
 By comparing these result we see that the execution time somewhat decreases when all data is transferred. But we should take into account that the transfer itself is not included in the result. When we add the transfer and execution time together we see that it is only faster by a small fraction. 0.00275 compared to 0.00265.
 
-  
-
-
 \newpage
 
 \section{DFT}
 \label{sec:DFT}
 
+Now two kernel functions are implemented that are executed in sequence after each other that process the same memory transferred with \code{cude.to\_device()}. By doing this the data does not have to be transferred back to the CPU, this gives us of course less overhead. This is useful since both kernel function work hand in hand to calculate one end result and the data should not be transferred unnecessarily.
+
+The timing results of the execution are:
+\begin{itemize}
+    \item No memory management => 0.11401880025863648
+    \item Memory management => 0.11228885889053344
+\end{itemize}
+
+There is a small decrease in execution time, but as seen in the previous section we have to take into account the transfer time of the data.
 
 \newpage
 \section{Conclusion}
 \label{sec:conclusion}
 
+Overall we see that memory management has some improvements and ease of uses. The execution times mostly improve because the transfer is no longer timed directly. Furthermore, Numba itself already does a lot of memory management in the background, maybe not that efficiently. If needed, manual memory management can be used and can in theory greatly improve the execution times when possible and unnecessary data transfers will bottleneck the bus system. Since we use only a small set of samples, the data to transfer is not that big and does of course not create that much overhead. When memory management is used for a lot of data we should see good improvements in the timing results.
