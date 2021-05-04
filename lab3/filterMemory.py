@@ -113,8 +113,7 @@ signal = np.append(np.zeros(pad_size),np.append(noise,np.zeros(pad_size))) # Pad
 #time
 blocks = 1
 threads = 200
-result = np.zeros(signal_original.size)
-print("nothing on device (s)", time_filter(blocks,threads,signal, kz_coeffs, result))
+result = np.zeros(signal_original.size) 
 result = np.zeros(signal_original.size)
 sample_array_gs_device = cuda.to_device(signal)
 print("sample_array_gs_device  (s)", time_filter(blocks,threads,sample_array_gs_device, kz_coeffs, result))
