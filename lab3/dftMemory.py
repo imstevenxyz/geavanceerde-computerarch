@@ -76,9 +76,10 @@ def _kz_coeffs(m, k):
 
     return coef / m ** k
 
-def function_dft_filter(signal,kz_coeffs,result,N,frequencies_real, frequencies_img):
+def function_dft_filter(signal,kz_coeffs,result,N,frequencies_real_1, frequencies_img_1,frequencies_real_2, frequencies_img_2):
+    kernel_parallel[2, 1000](result, N, frequencies_real_1, frequencies_img_1)
     kernel_filter_outputFocus[1, 128](signal, kz_coeffs, result)
-    kernel_parallel[2, 1000](result, N, frequencies_real, frequencies_img)
+    kernel_parallel[2, 1000](result, N, frequencies_real_2, frequencies_img_2)
 
 ########################
 
@@ -134,14 +135,16 @@ plt.savefig('dft_filter.png')
 
 #time no memoery
 
-frequencies_real = np.zeros(int(N/2+1), dtype=np.float)
-frequencies_img = np.zeros(int(N/2+1), dtype=np.float)
-t_par = synchronous_kernel_timeit(lambda: function_dft_filter(signal,kz_coeffs,result,N,frequencies_real, frequencies_img), number=100)
+frequencies_real_1 = np.zeros(int(N/2+1), dtype=np.float)
+frequencies_img_1 = np.zeros(int(N/2+1), dtype=np.float)
+frequencies_real_2 = np.zeros(int(N/2+1), dtype=np.float)
+frequencies_img_2 = np.zeros(int(N/2+1), dtype=np.float)
+t_par = synchronous_kernel_timeit(lambda: function_dft_filter(signal,kz_coeffs,result,N,frequencies_real_1, frequencies_img_1,frequencies_real_2, frequencies_img_2), number=100)
 print("time memory not on device ", t_par)
 
 #time memory
 frequencies_real = np.zeros(int(N/2+1), dtype=np.float)
 frequencies_img = np.zeros(int(N/2+1), dtype=np.float)
 result_array_gs_device = cuda.to_device(result)
-t_par = synchronous_kernel_timeit(lambda: function_dft_filter(signal,kz_coeffs,result_array_gs_device,N,frequencies_real, frequencies_img), number=100)
+t_par = synchronous_kernel_timeit(lambda: function_dft_filter(signal,kz_coeffs,result_array_gs_device,N,frequencies_real_1, frequencies_img_1,frequencies_real_2,frequencies_img_2), number=100)
 print("time memory to device ", t_par)
